@@ -1,16 +1,15 @@
-async function translateWord() {
-    const inputWord = document.getElementById("search").value.toLowerCase();
-    
-    // Fetch the JSON file and convert it to a JavaScript object
-    const response = await fetch('dictionary.json');
-    const dictionary = await response.json();
-    
-    const translation = dictionary[inputWord];
-    const resultElement = document.getElementById("result");
-
-    if (translation) {
-        resultElement.textContent = `Translation: ${translation}`;
-    } else {
-        resultElement.textContent = "Word not found in the dictionary.";
-    }
-}
+document.getElementById("translateButton").addEventListener("click", function() {
+    const word = document.getElementById("inputWord").value.toLowerCase();
+    fetch("dictionary.json")
+        .then(response => response.json())
+        .then(data => {
+            const translation = data[word];
+            const result = document.getElementById("result");
+            if (translation) {
+                result.textContent = `Translation: ${translation}`;
+            } else {
+                result.textContent = "Word not found in the dictionary.";
+            }
+        })
+        .catch(error => console.error("Error loading the dictionary:", error));
+});
